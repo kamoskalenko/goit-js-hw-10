@@ -18,7 +18,6 @@ let secondsEl = document.querySelector('[data-seconds]');
 function disableBtn() {
   btnStart.disabled = true;
   btnStart.setAttribute('id', 'js-disabled');
-  console.log(btnStart.getAttribute('class'));
 }
 
 function enableBtn() {
