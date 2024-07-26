@@ -7,7 +7,6 @@ import 'izitoast/dist/css/iziToast.min.css';
 import '../css/calendar.css';
 
 const input = document.querySelector('#datetime-picker');
-const timer = document.querySelector('.timer');
 const btnStart = document.querySelector('button[data-start]');
 
 let daysEl = document.querySelector('[data-days]');
@@ -39,7 +38,7 @@ const options = {
     const now = Date.now();
     userSelectedDate = selectedDates[0];
 
-    if (userSelectedDate <= now) {
+    if (userSelectedDate < now) {
       iziToast.error({
         title: 'Error',
         message: 'Please choose a date in the future',
@@ -68,17 +67,16 @@ function onBtnStartClick() {
     const timeDiff = userSelectedDate - currentDate;
     const time = convertMs(timeDiff);
 
-    updateTimer(time);
-
-    if (timeDiff === 0) {
+    if (timeDiff > 0) {
+      updateTimer(time);
+      disableBtn();
+      disableInput();
+    } else {
       clearInterval(intervalId);
       enableInput();
-      updateTimer(time);
+      updateTimer({ days: '00', hours: '00', minutes: '00', seconds: '00' });
     }
   }, 1000);
-
-  disableBtn();
-  disableInput();
 }
 
 function convertMs(ms) {
